@@ -44,6 +44,14 @@
   tags:
     - configure
 
+- name: Restart php-fpm service
+  systemd:
+    name: php-fpm
+    state: restarted
+  tags:
+    - never
+    - restart
+
 - name: Copy test index.phg contain phpinfo();
   template:
     src: index.php.j2

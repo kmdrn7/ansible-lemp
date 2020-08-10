@@ -8,3 +8,8 @@
   systemd:
     name: php-fpm
     state: started
+
+- name: restart php-fpm
+  systemd:
+    name: php-fpm
+    state: restarted
