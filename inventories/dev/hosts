@@ -1,0 +1,9 @@
+[lemp1]
+192.168.56.11
+
+[lemp2]
+192.168.56.12
+
+[server:children]
+lemp1
+lemp2

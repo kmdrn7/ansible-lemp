@@ -1,0 +1,29 @@
+---
+- name: Install python-mysql
+  yum:
+    name: MySQL-python
+    state: present
+  tags:
+    - install
+
+- name: Install mariadb repo
+  template:
+    src: MariaDB.repo.j2
+    dest: /etc/yum.repos.d/MariaDB.repo
+  tags:
+    - install
+
+- name: Install mariadb server and client
+  yum:
+    name:
+      - MariaDB-server
+      - MariaDB-client
+    state: present
+  notify:
+    - enable mariadb
+    - start mariadb
+  tags:
+    - install
+
+- name: Flush pending handlers
+  meta: flush_handlers

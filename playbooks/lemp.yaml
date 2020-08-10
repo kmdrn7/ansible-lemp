@@ -1,0 +1,7 @@
+---
+- hosts: lemp2
+  become: yes
+  roles:
+    - nginx
+    - mariadb
+    - php

@@ -1,0 +1,56 @@
+---
+- name: Add PHP Remi Repository
+  yum:
+    name: http://rpms.remirepo.net/enterprise/remi-release-7.rpm
+    state: present
+  tags:
+    - install
+
+- name: Install php
+  yum:
+    name:
+      - php
+      - php-mysqlnd
+      - php-fpm
+    state: present
+    enablerepo: remi-php74
+  tags:
+    - install
+
+- name: Configure php-fpm service
+  copy:
+    src: www.conf
+    dest: /etc/php-fpm.d/www.conf
+    owner: root
+    group: root
+  tags:
+    - configure
+
+- name: Configure nginx process to php-fpm
+  copy:
+    src: nginx.conf
+    dest: /etc/nginx/nginx.conf
+    owner: root
+    group: root
+  tags:
+    - configure
+
+- name: Configure nginx process to php-fpm
+  copy:
+    src: default.conf
+    dest: /etc/nginx/conf.d/default.conf
+    owner: root
+    group: root
+  tags:
+    - configure
+
+- name: Copy test index.phg contain phpinfo();
+  template:
+    src: index.php.j2
+    dest: /usr/share/nginx/html/index.php
+  notify:
+    - enable php-fpm
+    - start php-fpm
+    - restart nginx
+  tags:
+    - configure
